@@ -5,14 +5,16 @@ import {
   Link,
 } from "react-router-dom";
 
+import Header from './Header';
 import Home from './Home';
 import ItemDetail from './ItemDetail';
 import News from './News';
+import Footer from './Footer';
 
 const App = () => {
   return (
     <Router>
-        <Link to="/">Hacker News - Version Yuki</Link>
+      <Header />
       <Switch>
         <Route exact path="/">
           <Home />
@@ -24,6 +26,7 @@ const App = () => {
           <ItemDetail />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 };
