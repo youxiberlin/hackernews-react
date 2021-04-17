@@ -4,6 +4,7 @@ import { useParams, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import Spinner from './Spinner';
+import StoryItem from './StoryItem'
 moment().format();
 
 const News = () => {
@@ -23,24 +24,9 @@ const News = () => {
     getTopStories(page);
   }, [page]);
 
-  const renderStories = (stories) => stories.map(story => {
-    return (
-      <li key={story.id} className="mt-1">
-        <div>
-          <a className="item" href={story.url}>
-            {story.title}
-          </a>
-        </div>
-        <div className="text-sm text-secondary">
-          {story.score} points by {story.by} {moment(story.time * 1000).fromNow()}
-          <Link to={`../item/${story.id}`}>
-          {story.descendants} 
-          </Link>
-          comments
-        </div>
-      </li>
-    );
-  });
+  const renderStories = (stories) => stories.map(story => (
+      <StoryItem story={story} pageType="news" />
+    ));
 
   return (
     stories.length ? (
