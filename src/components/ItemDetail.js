@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { values, indexBy, prop } from 'ramda';
 import moment from 'moment';
+import Spinner from './Spinner';
 moment().format();
 
 const ItemDetail = () => {
@@ -77,7 +78,7 @@ const ItemDetail = () => {
 
   return (
     <div className="container bg-light">
-      {comments ? renderComments(comments) : null}
+      {comments ? renderComments(comments) : <Spinner />}
     </div>
   );
 };

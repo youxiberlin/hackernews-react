@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import Spinner from './Spinner';
 moment().format();
 
 const News = () => {
@@ -44,18 +45,20 @@ const News = () => {
   return (
     <div className="container bg-light">
       {stories.length ? (
-        <ol start={(+page * 30) + 1}>
-          {renderStories(stories)}
-        </ol>
-      ): null}
-      <div onClick={() => setPage(+pageId + 1)}>
-        <Link
-         push to={`${page}`}
-        >
-            More
-          <Redirect push to={`${page}`} />
-        </Link>
-      </div>
+        <Fragment>
+          <ol start={(+page * 30) + 1}>
+            {renderStories(stories)}
+          </ol>
+          <div onClick={() => setPage(+pageId + 1)}>
+            <Link
+            push to={`${page}`}
+            >
+              More
+              <Redirect push to={`${page}`} />
+            </Link>
+          </div>
+        </Fragment>
+      ): <Spinner />}
     </div>
   );
 };

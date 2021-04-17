@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import Spinner from './Spinner';
 moment().format();
 
 const Home = () => {
@@ -39,14 +40,18 @@ const Home = () => {
   });
   return (
     <div className="container bg-light">
-      <ol>
-      {stories.length ? renderStories(stories) : null}
-      </ol>
-      <div>
-        <Link to={'news/1'}>
-        More
-        </Link>
-      </div>
+      {stories.length ?
+        (<Fragment>
+          <ol>
+          {renderStories(stories)}
+          </ol>
+          <div>
+            <Link to={'news/1'}>
+            More
+            </Link>
+          </div>
+          </Fragment>) :
+        <Spinner />}
     </div>
   );
 };
