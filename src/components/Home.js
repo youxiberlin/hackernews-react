@@ -1,7 +1,23 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const Home = ({ stories }) => {
-  const renderStories = stories.map(story => {
+const Home = () => {
+  const [stories, setStories] = useState([]);
+
+  useEffect(() => {
+    const getTopStories = async () => {
+      const { data: topStories } = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json');
+      const topStoryIds = topStories.slice(0, 30);
+      const getItemPromises = topStoryIds.map(id => axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`));
+      const items = await Promise.all(getItemPromises);
+      const itemsData = items.map(item => item.data);
+      setStories(itemsData);
+    };
+    getTopStories();
+  }, []);
+
+  const renderStories = (stories) => stories.map(story => {
     return (
       <li key={story.id} className="mt-1">
         <div>
@@ -22,7 +38,7 @@ const Home = ({ stories }) => {
   return (
     <div className="container bg-light">
       <ol>
-      {renderStories}
+      {stories.length ? renderStories(stories) : null}
       </ol>
     </div>
   );
