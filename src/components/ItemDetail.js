@@ -77,9 +77,11 @@ const ItemDetail = () => {
   };
 
   return (
-    <div className="container bg-light">
-      {comments ? renderComments(comments) : <Spinner />}
-    </div>
+    comments ? (
+        <div className="container bg-light py-3">
+        {renderComments(comments)}
+        </div>
+      ) : <Spinner />
   );
 };
 

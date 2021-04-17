@@ -39,21 +39,17 @@ const Home = () => {
     );
   });
   return (
-    <div className="container bg-light">
-      {stories.length ?
-        (<Fragment>
-          <ol>
-          {renderStories(stories)}
-          </ol>
-          <div>
-            <Link to={'news/1'}>
-            More
-            </Link>
-          </div>
-          </Fragment>) :
-        <Spinner />}
-    </div>
-  );
+    stories.length ? (
+      <div className="container bg-light py-3">
+        <ol>
+        {renderStories(stories)}
+        </ol>
+        <div>
+          <Link to={'news/1'}>More</Link>
+        </div>
+      </div>
+    ) : <Spinner />
+   );
 };
 
 export default Home;
