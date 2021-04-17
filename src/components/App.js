@@ -7,6 +7,7 @@ import {
 
 import Home from './Home';
 import ItemDetail from './ItemDetail';
+import News from './News';
 
 const App = () => {
   return (
@@ -15,6 +16,9 @@ const App = () => {
       <Switch>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route path="/news/:pageId">
+          <News />
         </Route>
         <Route path="/item/:itemId">
           <ItemDetail />
