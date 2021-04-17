@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { values, indexBy, prop } from 'ramda';
+import moment from 'moment';
+moment().format();
 
 const ItemDetail = () => {
   let { itemId } = useParams();
@@ -48,9 +50,15 @@ const ItemDetail = () => {
   const renderComments = (comments) => {
     const getKids = (parentObj) => {
       if (!parentObj.kids) return null;
-      return values(parentObj.kids).map((item) => (
+      return values(parentObj.kids)
+        .sort((a, b) => b.time - a.time)
+        .map((item) => (
           <li key={item.id}>
-            <div>{item.id}</div>
+            <div>
+              <i className="fas fa-caret-up"></i>
+              {item.by}
+              - {moment(item.time * 1000).fromNow()}
+            </div>
             <div dangerouslySetInnerHTML={{ __html: item.text }}></div>
             <ul style={{ listStyleType: "none" }}>
               {getKids(item)}
