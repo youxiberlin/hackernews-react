@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
+moment().format();
 
 const News = () => {
   let { pageId } = useParams();
@@ -29,7 +31,7 @@ const News = () => {
           </a>
         </div>
         <div className="text-sm text-secondary">
-          {story.score} points by {story.by} xx hours ago
+          {story.score} points by {story.by} {moment(story.time * 1000).fromNow()}
           <Link to={`../item/${story.id}`}>
           {story.descendants} 
           </Link>
@@ -41,9 +43,11 @@ const News = () => {
 
   return (
     <div className="container bg-light">
-      <ol start={(+page * 30) + 1}>
-      {stories.length ? renderStories(stories) : null}
-      </ol>
+      {stories.length ? (
+        <ol start={(+page * 30) + 1}>
+          {renderStories(stories)}
+        </ol>
+      ): null}
       <div onClick={() => setPage(+pageId + 1)}>
         <Link
          push to={`${page}`}
