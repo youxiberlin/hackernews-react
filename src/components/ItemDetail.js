@@ -39,7 +39,7 @@ const ItemDetail = () => {
         for (let i = 0; i < commentsData.length; i++){
           const item = commentsData[i];
           if (item.kids) {
-            await getKids(item, result.kids[item.id])
+            await getKids(item, result.kids[item.id]);
           }
         }
 

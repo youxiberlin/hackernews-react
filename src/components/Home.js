@@ -34,7 +34,7 @@ const Home = () => {
         {renderStories(stories)}
         </ol>
         <div>
-          <Link to={'news/1'}>More</Link>
+          <Link to='news/1'>More</Link>
         </div>
       </div>
     ) : <Spinner />
