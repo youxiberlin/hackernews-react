@@ -31,12 +31,14 @@ const News = () => {
         <ol start={(+page * 30) + 1}>
           {renderStories(stories)}
         </ol>
-        <div onClick={() => setPage(+pageId + 1)}>
-          <Link to={`${page}`}>
-            <Redirect push to={`../news/${page}`} />
-            More
-          </Link>
-        </div>
+        {stories.length === 30 ? (
+          <div onClick={() => setPage(+pageId + 1)}>
+            <Link to={`${page}`}>
+              <Redirect push to={`../news/${page}`} />
+              More
+            </Link>
+          </div>
+        ) : null}
       </div>
     ) : <Spinner />
   );
