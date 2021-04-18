@@ -30,7 +30,7 @@ const News = () => {
           {renderStories(stories)}
         </ol>
         <div onClick={() => setPage(+pageId + 1)}>
-          <Link push to={`${page}`}>
+          <Link to={`${page}`}>
             <Redirect push to={`../news/${page}`} />
             More
           </Link>
