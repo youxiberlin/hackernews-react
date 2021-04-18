@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Spinner from './Spinner';
@@ -11,8 +11,13 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getTopStories(0);
-      setStories(data);
+      try {
+        const data = await getTopStories(0);
+        setStories(data);
+      } catch (e) {
+        console.log(e);
+        setStories(stories);
+      }
     })();
   }, []);
 

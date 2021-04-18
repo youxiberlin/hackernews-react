@@ -13,8 +13,13 @@ const News = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getTopStories(page);
-      setStories(data);
+      try {
+        const data = await getTopStories(page);
+        setStories(data);
+      } catch (e) {
+        console.log(e);
+        setStories(stories);
+      }
     })();
     return () => setStories([]);
   }, [page]);

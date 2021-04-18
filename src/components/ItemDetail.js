@@ -14,9 +14,14 @@ const ItemDetail = () => {
   const [comments, setComments] = useState(null);
 
   useEffect(() => {
-    const getStory = async (itemId) => {
-      const { data } = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${itemId}.json`);
-      setStory(data);
+    const getStory = async (id) => {
+      try {
+        const { data } = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+        setStory(data);
+      } catch (e) {
+        console.log(e);
+        setStory(story);
+      }
     };
     getStory(itemId);
   }, []);
@@ -42,8 +47,13 @@ const ItemDetail = () => {
       }
 
       const getCommentsTree = async (parent) => {
-        const commentsTree = await getKids(parent);
-        setComments(commentsTree);
+        try {
+          const commentsTree = await getKids(parent);
+          setComments(commentsTree);
+        } catch (e) {
+          console.log(e);
+          setComments(comments);
+        }
       };
 
       getCommentsTree(story);
