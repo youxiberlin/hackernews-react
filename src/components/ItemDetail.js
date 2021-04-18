@@ -57,6 +57,7 @@ const ItemDetail = () => {
         .sort((a, b) => b.time - a.time)
         .map((item) => (
           <Comment
+            key={item.id}
             item={item}
             getKids={getKids}
           />
