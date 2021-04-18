@@ -64,6 +64,7 @@ const ItemDetail = () => {
     const getKids = (parentObj) => {
       if (!parentObj.kids) return null;
       return values(parentObj.kids)
+        .filter(item => !item.deleted)
         .sort((a, b) => b.time - a.time)
         .map((item) => (
           <Comment
