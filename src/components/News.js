@@ -1,7 +1,5 @@
-import { useState, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { useParams, Redirect, Link } from 'react-router-dom';
 import moment from 'moment';
 import Spinner from './Spinner';
 import StoryItem from './StoryItem';
@@ -18,10 +16,11 @@ const News = () => {
       const data = await getTopStories(page);
       setStories(data);
     })();
+    return () => setStories([]);
   }, [page]);
 
   const renderStories = (stories) => stories.map(story => (
-      <StoryItem story={story} pageType="news" />
+      <StoryItem key={story.id} story={story} pageType="news" />
     ));
 
   return (
@@ -32,8 +31,8 @@ const News = () => {
         </ol>
         <div onClick={() => setPage(+pageId + 1)}>
           <Link push to={`${page}`}>
+            <Redirect push to={`../news/${page}`} />
             More
-            <Redirect push to={`${page}`} />
           </Link>
         </div>
       </div>
