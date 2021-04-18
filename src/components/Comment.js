@@ -9,7 +9,11 @@ const Comment = ({ item, getKids }) => {
     <li className="mt-3" key={item.id}>
       <div className="text-secondary d-flex justify-content-start align-items-center">
         <div onClick={() => setShowComment(!showComment)}>
-          <i className="fas fa-caret-up"></i>
+          {showComment ? (
+            <i className="fas fa-caret-down"></i>
+          ) : (
+            <i className="fas fa-caret-up"></i>
+          )}
         </div>
         <div style={{ fontSize: 14 }} className="ml-2">
           {item.by}
