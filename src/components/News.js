@@ -33,7 +33,7 @@ const News = () => {
   return (
     stories.length ? (
       <div className="container bg-light">
-        <ol start={(+page * 30) + 1}>
+        <ol className="pl-4" start={(+page * 30) + 1}>
           {renderStories(stories)}
         </ol>
         {stories.length === 30 ? (

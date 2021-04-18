@@ -76,7 +76,7 @@ const ItemDetail = () => {
     };
 
     return (
-      <ul style={{ listStyleType: "none" }}>
+      <ul className="pl-0 pl-md-4" style={{ listStyleType: "none" }}>
         {getKids(comments)}
       </ul>
     );
@@ -85,7 +85,7 @@ const ItemDetail = () => {
   return (
     comments ? (
         <div className="container bg-light py-3">
-          <div className="pl-4 pb-4">
+          <div className="pl-md-4">
             <StoryItem story={story} pageType="comments" />
           </div>
           {renderComments(comments)}

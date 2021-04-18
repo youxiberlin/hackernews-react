@@ -11,7 +11,7 @@ const StoryItem = ({ story, pageType }) => (
       </a>
       <div style={{ fontSize: 14 }} className="text-secondary">{story.url ? `(${extractDomain(story.url)})` : null}</div>
     </div>
-    <div style={{ fontSize: 14 }} className="text-secondary d-flex justify-content-start">
+    <div style={{ fontSize: 14 }} className="text-secondary d-flex flex-wrap justify-content-start">
       <div>{story.score} points</div>
       <div className="ml-2">by {story.by}</div>
       <div className="ml-2">{moment(story.time * 1000).fromNow()}</div>

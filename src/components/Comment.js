@@ -6,8 +6,8 @@ const Comment = ({ item, getKids }) => {
   const [showComment, setShowComment] = useState(true);
 
   return (
-    <li className="mt-3" key={item.id}>
-      <div className="text-secondary d-flex justify-content-start align-items-center">
+    <li className="mt-3 pl-0" key={item.id}>
+      <div className="text-secondary d-flex flex-wrap justify-content-start align-items-center">
         <div onClick={() => setShowComment(!showComment)}>
           {showComment ? (
             <i className="fas fa-caret-down"></i>

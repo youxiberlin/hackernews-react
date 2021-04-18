@@ -30,7 +30,7 @@ const Home = () => {
   return (
     stories.length ? (
       <div className="container bg-light py-3">
-        <ol>
+        <ol className="pl-4">
         {renderStories(stories)}
         </ol>
         <div>
