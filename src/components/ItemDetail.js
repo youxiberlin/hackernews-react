@@ -4,6 +4,7 @@ import axios from 'axios';
 import { values, indexBy, prop } from 'ramda';
 import moment from 'moment';
 import Spinner from './Spinner';
+import StoryItem from './StoryItem';
 moment().format();
 
 const ItemDetail = () => {
@@ -54,11 +55,17 @@ const ItemDetail = () => {
       return values(parentObj.kids)
         .sort((a, b) => b.time - a.time)
         .map((item) => (
-          <li key={item.id}>
-            <div>
-              <i className="fas fa-caret-up"></i>
-              {item.by}
-              - {moment(item.time * 1000).fromNow()}
+          <li className="mt-3" key={item.id}>
+            <div className="text-secondary d-flex justify-content-start align-items-center">
+              <div>
+                <i className="fas fa-caret-up"></i>
+              </div>
+              <div style={{ fontSize: 14 }} className="ml-2">
+                {item.by}
+              </div>
+              <div style={{ fontSize: 14 }} className="ml-2">
+                {moment(item.time * 1000).fromNow()}
+              </div>
             </div>
             <div dangerouslySetInnerHTML={{ __html: item.text }}></div>
             <ul style={{ listStyleType: "none" }}>
@@ -79,7 +86,10 @@ const ItemDetail = () => {
   return (
     comments ? (
         <div className="container bg-light py-3">
-        {renderComments(comments)}
+          <div className="pl-4 pb-4">
+            <StoryItem story={story} pageType="comments" />
+          </div>
+          {renderComments(comments)}
         </div>
       ) : <Spinner />
   );

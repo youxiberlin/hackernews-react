@@ -17,7 +17,7 @@ const StoryItem = ({ story, pageType }) => (
       <div className="ml-2">{moment(story.time * 1000).fromNow()}</div>
       <div className="ml-2">
         {pageType === 'comments' ?
-           null : (
+          story.descendants : (
           <Link to={pageType === 'home' ? `item/${story.id}` : `../item/${story.id}`}>
           {story.descendants}
           </Link>
