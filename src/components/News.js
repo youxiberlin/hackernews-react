@@ -40,7 +40,12 @@ const News = () => {
           </div>
         ) : null}
       </div>
-    ) : <Spinner />
+    ) : +pageId < 17 ?
+       <Spinner /> : (
+        <div className="text-center text-secondary py-5" style={{ fontSize: 36 }}>
+          No content exists
+        </div>
+      )
   );
 };
 
