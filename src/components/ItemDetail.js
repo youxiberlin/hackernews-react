@@ -5,6 +5,7 @@ import { values, indexBy, prop } from 'ramda';
 import moment from 'moment';
 import Spinner from './Spinner';
 import StoryItem from './StoryItem';
+import Comment from './Comment';
 moment().format();
 
 const ItemDetail = () => {
@@ -55,25 +56,11 @@ const ItemDetail = () => {
       return values(parentObj.kids)
         .sort((a, b) => b.time - a.time)
         .map((item) => (
-          <li className="mt-3" key={item.id}>
-            <div className="text-secondary d-flex justify-content-start align-items-center">
-              <div>
-                <i className="fas fa-caret-up"></i>
-              </div>
-              <div style={{ fontSize: 14 }} className="ml-2">
-                {item.by}
-              </div>
-              <div style={{ fontSize: 14 }} className="ml-2">
-                {moment(item.time * 1000).fromNow()}
-              </div>
-            </div>
-            <div dangerouslySetInnerHTML={{ __html: item.text }}></div>
-            <ul style={{ listStyleType: "none" }}>
-              {getKids(item)}
-            </ul>
-          </li>
-        )
-      );
+          <Comment
+            item={item}
+            getKids={getKids}
+          />
+        ));
     };
 
     return (
