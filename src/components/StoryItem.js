@@ -4,7 +4,7 @@ import extractDomain from '../helper/extractDomain';
 moment().format();
 
 const StoryItem = ({ story, pageType }) => (
-  <li key={story.id} className="mt-1">
+  <div>
     <div>
       <a style={{ fontWeight: 500 }} href={story.url}>
         {story.title}
@@ -16,13 +16,16 @@ const StoryItem = ({ story, pageType }) => (
       <div className="ml-2">by {story.by}</div>
       <div className="ml-2">{moment(story.time * 1000).fromNow()}</div>
       <div className="ml-2">
-        <Link to={pageType === 'home' ? `item/${story.id}` : `../item/${story.id}`}>
-        {story.descendants}
-        </Link>
+        {pageType === 'comments' ?
+           null : (
+          <Link to={pageType === 'home' ? `item/${story.id}` : `../item/${story.id}`}>
+          {story.descendants}
+          </Link>
+        )}
         comments
       </div>
     </div>
-  </li>
+  </div>
 );
 
 export default StoryItem;

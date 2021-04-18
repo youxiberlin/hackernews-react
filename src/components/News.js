@@ -20,7 +20,9 @@ const News = () => {
   }, [page]);
 
   const renderStories = (stories) => stories.map(story => (
-      <StoryItem key={story.id} story={story} pageType="news" />
+      <li key={story.id} className="mt-1">
+        <StoryItem key={story.id} story={story} pageType="news" />
+      </li>
     ));
 
   return (

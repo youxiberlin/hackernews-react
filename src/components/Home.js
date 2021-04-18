@@ -17,7 +17,9 @@ const Home = () => {
   }, []);
 
   const renderStories = (stories) => stories.map(story => (
-      <StoryItem key={story.id} story={story} pageType="home" />
+      <li key={story.id} className="mt-1">
+        <StoryItem key={story.id} story={story} pageType="home" />
+      </li>
     ));
 
   return (
