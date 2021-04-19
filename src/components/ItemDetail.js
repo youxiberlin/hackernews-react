@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { values, indexBy, prop } from 'ramda';
+import { indexBy, prop } from 'ramda';
 import moment from 'moment';
 import Spinner from './Spinner';
 import StoryItem from './StoryItem';
-import Comment from './Comment';
+import CommentList from './CommentList';
 moment().format();
 
 const ItemDetail = () => {
@@ -60,35 +60,13 @@ const ItemDetail = () => {
     }
   }, [story]);
 
-  const renderComments = (comments) => {
-    const getKids = (parentObj) => {
-      if (!parentObj.kids) return null;
-      return values(parentObj.kids)
-        .filter(item => !item.deleted)
-        .sort((a, b) => b.time - a.time)
-        .map((item) => (
-          <Comment
-            key={item.id}
-            item={item}
-            getKids={getKids}
-          />
-        ));
-    };
-
-    return (
-      <ul className="pl-0 pl-md-4" style={{ listStyleType: "none" }}>
-        {getKids(comments)}
-      </ul>
-    );
-  };
-
   return (
     comments ? (
         <div className="container bg-light py-3">
           <div className="pl-md-4">
             <StoryItem story={story} pageType="comments" />
           </div>
-          {renderComments(comments)}
+          <CommentList comments={comments} />
         </div>
       ) : <Spinner />
   );
