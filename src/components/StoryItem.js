@@ -6,9 +6,18 @@ moment().format();
 const StoryItem = ({ story, pageType }) => (
   <div>
     <div>
-      <a style={{ fontWeight: 500 }} href={story.url}>
-        {story.title}
-      </a>
+      {story.text ? (
+          <Link
+            style={{ fontWeight: 500 }}
+            to={pageType === 'home' ? `item/${story.id}` : `../item/${story.id}`}
+          >
+          {story.title}
+          </Link>
+        ) : (
+        <a style={{ fontWeight: 500 }} href={story.url}>
+          {story.title}
+        </a>
+      )}
       <div style={{ fontSize: 14 }} className="text-secondary">{story.url ? `(${extractDomain(story.url)})` : null}</div>
     </div>
     <div style={{ fontSize: 14 }} className="text-secondary d-flex flex-wrap justify-content-start">
@@ -25,6 +34,12 @@ const StoryItem = ({ story, pageType }) => (
         comments
       </div>
     </div>
+    {pageType === 'comments' ? (
+      <div
+        className="mb-5 text-secondary"
+        dangerouslySetInnerHTML={{ __html: story.text }}
+      ></div>
+    ) : null}
   </div>
 );
 
