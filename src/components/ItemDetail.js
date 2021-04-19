@@ -2,11 +2,9 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { indexBy, prop } from 'ramda';
-import moment from 'moment';
 import Spinner from './Spinner';
 import StoryItem from './StoryItem';
 import CommentList from './CommentList';
-moment().format();
 
 const ItemDetail = () => {
   let { itemId } = useParams();

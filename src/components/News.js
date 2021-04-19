@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Redirect, Link } from 'react-router-dom';
-import moment from 'moment';
 import Spinner from './Spinner';
 import StoryList from './StoryList';
 import getTopStories from '../helper/getTopStories';
-moment().format();
 
 const News = () => {
   let { pageId } = useParams();
