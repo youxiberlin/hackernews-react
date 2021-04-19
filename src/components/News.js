@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Redirect, Link } from 'react-router-dom';
+import axios from 'axios';
 import Spinner from './Spinner';
 import StoryList from './StoryList';
 import getTopStories from '../helper/getTopStories';
@@ -8,6 +9,7 @@ const News = () => {
   let { pageId } = useParams();
   const [page, setPage] = useState(pageId);
   const [stories, setStories] = useState([]);
+  const [totalPage, setTotalPage] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -22,6 +24,19 @@ const News = () => {
     return () => setStories([]);
   }, [page]);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data: topStories } = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json');
+        setTotalPage(Math.ceil(topStories.length / 30));
+      } catch (e) {
+        console.log(e);
+        setTotalPage(totalPage);
+      }
+    })();
+    return () => setTotalPage(totalPage);
+  }, []);
+
   return (
     stories.length ? (
       <div className="container bg-light">
@@ -35,7 +50,7 @@ const News = () => {
           </div>
         ) : null}
       </div>
-    ) : +pageId < 17 ?
+    ) : (+pageId < totalPage || !totalPage) ?
        <Spinner /> : (
         <div className="text-center text-secondary py-5" style={{ fontSize: 36 }}>
           No content exists
