@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { indexBy, prop } from 'ramda';
 import Spinner from './Spinner';
 import StoryItem from './StoryItem';
 import CommentList from './CommentList';
+import makeCommentsTree from '../helper/makeCommentsTree';
 
 const ItemDetail = () => {
   let { itemId } = useParams();
@@ -26,27 +26,9 @@ const ItemDetail = () => {
 
   useEffect(() => {
     if (story) {
-      const getKids = async (parent, result = {}) => {
-        const kidsIdArr = parent.kids;
-        const getCommentPromises = kidsIdArr.map(id => axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`));
-        const comments = await Promise.all(getCommentPromises);
-        const commentsData = comments.map(item => item.data);
-        const commentsMap = indexBy(prop('id'), commentsData);
-        result.kids = commentsMap;
-
-        for (let i = 0; i < commentsData.length; i++){
-          const item = commentsData[i];
-          if (item.kids) {
-            await getKids(item, result.kids[item.id]);
-          }
-        }
-
-        return result;
-      }
-
       const getCommentsTree = async (parent) => {
         try {
-          const commentsTree = await getKids(parent);
+          const commentsTree = await makeCommentsTree(parent);
           setComments(commentsTree);
         } catch (e) {
           console.log(e);
