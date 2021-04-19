@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Spinner from './Spinner';
-import StoryItem from './StoryItem';
+import StoryList from './StoryList';
 import getTopStories from '../helper/getTopStories';
 moment().format();
 
@@ -21,18 +21,10 @@ const Home = () => {
     })();
   }, []);
 
-  const renderStories = (stories) => stories.map(story => (
-      <li key={story.id} className="mt-1">
-        <StoryItem key={story.id} story={story} pageType="home" />
-      </li>
-    ));
-
   return (
     stories.length ? (
       <div className="container bg-light py-3">
-        <ol className="pl-4">
-        {renderStories(stories)}
-        </ol>
+        <StoryList stories={stories} pageType="home" />
         <div>
           <Link to='news/1'>More</Link>
         </div>

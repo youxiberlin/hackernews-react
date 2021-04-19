@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Redirect, Link } from 'react-router-dom';
 import moment from 'moment';
 import Spinner from './Spinner';
-import StoryItem from './StoryItem';
+import StoryList from './StoryList';
 import getTopStories from '../helper/getTopStories';
 moment().format();
 
@@ -24,18 +24,10 @@ const News = () => {
     return () => setStories([]);
   }, [page]);
 
-  const renderStories = (stories) => stories.map(story => (
-      <li key={story.id} className="mt-1">
-        <StoryItem key={story.id} story={story} pageType="news" />
-      </li>
-    ));
-
   return (
     stories.length ? (
       <div className="container bg-light">
-        <ol className="pl-4" start={(+page * 30) + 1}>
-          {renderStories(stories)}
-        </ol>
+        <StoryList stories={stories} pageType="news" page={page}/>
         {stories.length === 30 ? (
           <div onClick={() => setPage(+pageId + 1)}>
             <Link to={`${page}`}>
