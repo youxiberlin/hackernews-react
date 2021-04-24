@@ -3,27 +3,28 @@ import { indexBy, prop } from 'ramda';
 
 const myStorage = window.sessionStorage;
 
-const makeCommentsTree = async (parent, result = {}) => {
-  const newKids = [];
-  const kidsIdArr = parent.kids;
-
-  const storedComments = kidsIdArr.reduce((acc, curr) => {
-    const storedData = myStorage.getItem(curr);
-    if (storedData) acc.push(JSON.parse(storedData));
-    else newKids.push(curr);
-    return acc;
-  }, []);
-
+const getComments = async (commentIds) => {
   const catchErr = p => p.catch(err => {
     console.log('error', err);
     return { data: {}};
   });
-
-  const getCommentPromises = newKids
+  const getCommentPromises = commentIds
     .map(id => axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`))
     .map(promise => catchErr(promise));
-  const newComments = await Promise.all(getCommentPromises);
-  const newCommentsData = newComments.map(item => item.data);
+  const comments = await Promise.all(getCommentPromises);
+  return comments.map(item => item.data);
+}
+
+const makeCommentsTree = async (parent, result = {}) => {
+  const storedComments = parent.kids.reduce((acc, curr) => {
+    const storedData = myStorage.getItem(curr);
+    if (storedData) acc.push(JSON.parse(storedData));
+    return acc;
+  }, []);
+
+  const storedCommentsIds = storedComments.map(comment => comment.id);
+  const newKids = parent.kids.filter(id => !storedCommentsIds.includes(id));
+  const newCommentsData = await getComments(newKids);
   const allComments = [...new Set([...storedComments, ...newCommentsData])];
   const commentsMap = indexBy(prop('id'), allComments);
   result.kids = commentsMap;
@@ -37,7 +38,6 @@ const makeCommentsTree = async (parent, result = {}) => {
   }
 
   return result;
-
 }
 
 export default makeCommentsTree;
