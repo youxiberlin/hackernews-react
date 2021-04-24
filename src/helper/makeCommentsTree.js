@@ -7,16 +7,12 @@ const makeCommentsTree = async (parent, result = {}) => {
   const newKids = [];
   const kidsIdArr = parent.kids;
 
-  const storedComments = [];
-  for (let i = 0; i < kidsIdArr.length; i++) {
-    const kidId = kidsIdArr[i];
-    const storedKidData = myStorage.getItem(kidId);
-    if (storedKidData) {
-      storedComments.push(JSON.parse(storedKidData));
-    } else {
-      newKids.push(kidId);
-    }
-  }
+  const storedComments = kidsIdArr.reduce((acc, curr) => {
+    const storedData = myStorage.getItem(curr);
+    if (storedData) acc.push(JSON.parse(storedData));
+    else newKids.push(curr);
+    return acc;
+  }, []);
 
   const catchErr = p => p.catch(err => {
     console.log('error', err);
