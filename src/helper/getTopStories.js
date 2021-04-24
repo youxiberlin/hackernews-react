@@ -1,35 +1,38 @@
 import axios from 'axios';
+import { keys } from 'ramda';
 
 const myStorage = window.sessionStorage;
 
-const getTopStories = async (page) => {
-  const storyMap = {}
-  const newIds = [];
+const getStories = async (storyIds) => {
   const catchErr = p => p.catch(err => {
     console.log('error', err);
     return { data: {}};
   });
-  
-  const { data: topStories } = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json');
-  const topStoryIds = topStories.slice(+page * 30, (+page + 1) * 30);
 
-  for (let i = 0; i < topStoryIds.length; i++) {
-    const storyId = topStoryIds[i];
-    if (myStorage.getItem(storyId)) {
-      const data = myStorage.getItem(storyId);
-      storyMap[storyId] = JSON.parse(data);
-    } else {
-      storyMap[storyId] = {};
-      newIds.push(storyId);
-    }
-  }
-
-  const getNewStoriesPromises = newIds
+  const getNewStoriesPromises = storyIds
     .map(id => axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`))
     .map(promise => catchErr(promise));
 
-  const newStories = await Promise.all(getNewStoriesPromises);
-  const newStoriesData = newStories.map(item => item.data);
+  const stories = await Promise.all(getNewStoriesPromises);
+  const storiesData = stories.map(item => item.data);
+  return storiesData;
+}
+
+const getTopStories = async (page) => {
+  const { data: topStories } = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json');
+  const topStoryIds = topStories.slice(+page * 30, (+page + 1) * 30);
+
+  const storyMap= topStoryIds
+    .reduce((acc, curr) => {
+      const storedData = myStorage.getItem(curr);
+      if (storedData) {
+        acc[curr] = JSON.parse(storedData);
+      }
+      return acc;
+    }, {});
+  const storedIds = keys(storyMap).map(key => +key);
+  const newIds = topStoryIds.filter(id => !storedIds.includes(id));
+  const newStoriesData = await getStories(newIds);
 
   for (let i = 0; i < newStoriesData.length; i++) {
     const newStory = newStoriesData[i];
@@ -37,8 +40,7 @@ const getTopStories = async (page) => {
     myStorage.setItem(newStory.id, JSON.stringify(newStory));
   }
   
-  const result = topStoryIds.map(item => storyMap[item]);
-  return result;
+  return topStoryIds.map(id => storyMap[id]);
 };
 
 export default getTopStories;
